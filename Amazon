@@ -1,0 +1,75 @@
+package selenium;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Amazon {
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+		driver.get("https://amazon.in/");
+		
+		
+		WebElement signIn = driver.findElement(By.id("nav-link-accountList"));
+		signIn.click();
+		WebElement email = driver.findElement(By.xpath("//input[@type = 'email']"));
+		email.sendKeys("drerd123@proton.me");
+		
+		
+		
+		WebElement continueButton = driver.findElement(By.id("continue"));
+		continueButton.click();
+		WebElement password = driver.findElement(By.xpath("//input[@name = 'password']"));
+		password.sendKeys("Simplilearn55x-");
+		
+		
+		WebElement signInSubmit = driver.findElement(By.id("signInSubmit"));
+		signInSubmit.click();
+
+		
+		((JavascriptExecutor) driver).executeScript("window.scrollBy(0,3000)","");
+		
+		
+		WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+		searchBox.sendKeys("iPhone 13");
+		WebElement searchButton = driver.findElement(By.id("nav-search-submit-button"));
+		searchButton.click();
+		
+	
+		WebElement filter = driver.findElement(By.xpath("//*[@id=\"p_n_feature_twenty-nine_browse-bin/81332994031\"]/span/a/span"));
+		filter.click();
+		WebElement product = driver.findElement(By.xpath("//*[@id=\"search\"]/div[1]/div[1]/div/span[1]/div[1]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/h2/a/span"));
+		product.click();
+
+		
+		String windowHandle = driver.getWindowHandle();
+		ArrayList tabs = new ArrayList(driver.getWindowHandles());
+		driver.switchTo().window((String) tabs.get(1));
+
+		((JavascriptExecutor) driver).executeScript("window.scrollBy(0,2500)","");
+
+		WebElement wishlistProduct = driver.findElement(By.xpath("//*[@id=\"wishListMainButton\"]"));
+		wishlistProduct.click();
+		
+		
+		
+	    if (wishlistProduct.isDisplayed()) {
+	    	System.out.println("Confirmation box appeared.");
+	    } else {
+	        System.out.println("Confirmation box did not appear.");
+	    		}
+	
+	    driver.close();
+	}
+}
+
+
