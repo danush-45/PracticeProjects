@@ -1,0 +1,196 @@
+Source code:
+
+Landing page:
+package in.Redbus.Pages;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+
+public class LandingPage {
+
+
+@FindBy(id = "src")
+private WebElement fromLocation;
+
+
+@FindBy(id = "dest")
+private WebElement toLocation;
+
+
+@FindBy(className = "dateText") private WebElement date;
+
+@FindBy(xpath = "(//span[normalize-space()='26'])") private WebElement selectDate;
+
+@FindBy(id = "search_button") private WebElement clickSearch;
+
+public LandingPage(WebDriver driver) {
+ 
+PageFactory.initElements(driver, this);
+
+}
+
+
+public void clickFrom(String from) { fromLocation.sendKeys(from);
+}
+
+
+public void clickTo(String to) { toLocation.sendKeys(to);
+}
+
+
+public void clickDate() {
+date.click();
+}
+
+
+public void selectDateFromCalendar() { selectDate.click();
+}
+
+
+public void searchBuses() {
+clickSearch.click();
+}
+
+
+}
+ 
+ViewBuses page:
+package in.Redbus.Pages;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+
+public class ViewBusesPage {
+
+
+@FindBy(xpath = "(//*[@id=\"result-section\"]/div[1]/div/div[2]/div/div[4]/div[2])") private WebElement viewBuses;
+
+@FindBy(xpath = "(//*[@id=\"17240136\"]/div/div[2]/div[1])") private WebElement viewSeats;
+
+@FindBy(xpath = "(//i[@class='icon icon-close'])") private WebElement closeBottom;
+
+@FindBy(xpath =
+"(//*[@id=\"17240136\"]/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div/div[1]/div/ul/li[1]/di v[3]/span)")
+private WebElement boardingPoint;
+
+
+@FindBy(xpath =
+"(//*[@id=\"17240136\"]/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div/div[2]/ul/li[1]/div[3]
+/span)")
+private WebElement droppingPoint;
+
+
+@FindBy(id = "gotoseat_btn") private WebElement searchSeat;
+ 
+public ViewBusesPage(WebDriver driver) { PageFactory.initElements(driver, this);
+}
+
+
+public void closeBottomBar() { closeBottom.click();
+}
+
+
+public void clickViewBuses() { viewBuses.click();
+}
+
+
+public void clickViewSeats() { viewSeats.click();
+}
+
+
+public void clickBordingPoint() { boardingPoint.click();
+}
+
+
+public void clickDroppingPoint() { droppingPoint.click();
+}
+
+
+public void clickSearchSeat() { searchSeat.click();
+}
+
+}
+ 
+Base Test:
+package in.Redbus.TestScripts;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions; import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterTest;
+
+
+
+
+public class BaseTest {
+WebDriver driver;
+
+
+@BeforeTest
+public void LaunchApplication() {
+
+
+ChromeOptions options = new ChromeOptions(); options.addArguments("--disable-notifications");
+// 1. Open the browser
+driver = new ChromeDriver(options);
+// driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
+
+
+// 2. Maximize it
+driver.manage().window().maximize();
+
+
+// 3. Navigate to https://amazon.in driver.get("https://redbus.in");
+}
+ 
+@AfterTest
+public void CloseBrowser() { driver.quit();
+}
+
+}
+
+
+
+
+Book bus ticket:
+package in.Redbus.TestScripts;
+
+
+import org.testng.annotations.Test;
+import in.Redbus.Pages.LandingPage;
+import in.Redbus.Pages.ViewBusesPage;
+
+
+public class BookBusTicket extends BaseTest {
+
+
+@Test
+public void viewSeats() throws InterruptedException { String from = "Mumbai";
+String to = "Pune";
+LandingPage landingPage = new LandingPage(driver); landingPage.clickFrom(from);
+landingPage.clickTo(to); landingPage.clickDate();
+landingPage.selectDateFromCalendar();
+
+
+landingPage.searchBuses(); Thread.sleep(4000);
+
+ViewBusesPage viewBusesPage = new ViewBusesPage(driver);
+//viewBusesPage.closeBottomBar();
+ 
+viewBusesPage.clickViewBuses(); Thread.sleep(3000);
+viewBusesPage.clickViewSeats(); Thread.sleep(4000);
+viewBusesPage.clickBordingPoint(); viewBusesPage.clickDroppingPoint(); viewBusesPage.clickSearchSeat();
+
+
+}
+
+}
