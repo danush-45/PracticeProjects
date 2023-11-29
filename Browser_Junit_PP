@@ -1,0 +1,52 @@
+Source Code:
+package com.app.Junit;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class Browser {
+
+    @Test
+    public void testFacebookAuthentication() {
+        
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.facebook.com");
+
+        WebElement username = driver.findElement(By.id("email")).    sendKeys("user1@gmail.com");
+WebElement password = driver.findElement(By.id("pass")).      sendKeys("User@12345");
+WebElement login = driver.findElement(By.name("login")).click();
+
+ AssertFalse(driver.getCurrentUrl().contains("facebook.com/home"), "Facebook authentication failed");
+        driver.quit();
+    }
+}
+package com.app.Junit;
+
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class SearchEngineGoogle {
+
+    @Test
+    public void GoogleSearch() {
+        
+
+        WebDriver driver = new ChromeDriver();
+driver.get("https://www.google.com");
+
+         
+          WebElement search = driver.findElement(By.name("q")).
+        sendKeys("Unit Testing");
+WebElement search = driver.findElement(By.id("APjFqb")).click();
+
+        AssertFalse(driver.getTitle().contains("Unit Testing"), "Google search failed");
+        driver.quit();
+    }
+}
