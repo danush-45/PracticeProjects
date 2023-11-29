@@ -1,0 +1,104 @@
+Feature file:
+
+Feature: Testing Amazon functionalities for internal employees
+
+  Background: Iam on Amazon Page
+
+  Scenario: SignIn and search Functionality Test
+    Given User is on the Amazon login page
+    When User enters SignIn button
+    Then User should enter email
+    Then User clicks continue button 
+    Then user should enter password
+    And User should click SignIn button
+    When User search any product
+    Then the product should be displayed
+
+
+Amazon Step definition file:
+package steps;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class Amazon {
+    WebDriver driver;
+
+    @Given("User is on the Amazon login page")
+    public void user_is_on_amazon_login_page() {
+       
+        driver = new ChromeDriver();
+        driver.get("https://www.amazon.in");
+        // Code to navigate to Amazon login page
+    }
+
+    @When("User enters SignIn button")
+    public void user_enters_sign_in_button() {
+    	WebElement signIn = driver.findElement(By.id("nav-link-accountList"));
+    	signIn.click();
+    }
+
+    @Then("User should enter email")
+    public void user_should_enter_email() {
+    	WebElement email= driver.findElement(By.xpath("//input[@type='email']"));
+    	email.sendKeys("drerd123@proton.me");
+       
+    }
+    @Then("User clicks continue button")
+    public void user_clicks_continue_button() {
+    	WebElement continueButton = driver.findElement(By.id("continue"));
+    	continueButton.click();
+      
+    }
+    @Then("user should enter password")
+    public void user_should_enter_password() {
+    	WebElement password = driver.findElement(By.xpath("//input[@name='password']"));
+    	password.sendKeys("Simplilearn55x-");
+       
+    }
+
+    @Then("User should click SignIn button")
+    public void user_should_click_sign_in_button() {
+    	WebElement submit = driver.findElement(By.id("signInSubmit"));
+    	submit.click();
+        
+    }
+
+    @When("User search any product")
+    public void user_search_any_product() {
+    	WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+    	searchBox.sendKeys("Cricket bats");
+       
+    }
+
+    @Then("the product should be displayed")
+    public void the_product_should_be_displayed() {
+    	WebElement searchButton = driver.findElement(By.id("nav-search-submit-button"));
+    	searchButton.click();
+    }
+
+
+    }
+
+Runner File:
+package runner;
+
+
+import org.junit.runner.RunWith;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "C:\\Users\\91867\\eclipse-workspace\\Lesson5-CucumberDemo\\src\\test\\java\\feature\\Amazon.feature",
+    glue = {"steps"}
+)
+public class TestRunnerAmazon {
+
+}
